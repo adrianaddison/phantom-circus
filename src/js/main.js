@@ -9,69 +9,90 @@ var rawData = [
     { id: 3, title: 'MYSTERIOUS', description: 'We have shows with Acrobalance, Fire, Clowns and more.', images: ['images/poi_2.jpg','images/acrobalance_2.jpg','images/clown_1.jpg']}
 ];
 
-var collection = new Backbone.Collection(rawData);
+var ImageModel = Backbone.Model.extend({
+    defaults: {
+        title: '',
+        description: '',
+        images: []
+    }
+});
+
+var ImageCollection = Backbone.Collection.extend({
+    model: ImageModel
+});
+
+var collection = new ImageCollection(rawData);
 
 // How to select first pic in first model
 // console.log(collection.models[1].attributes.images[0]);
 // collection.at(1).get('images')[0]
 // collection.models[i].attributes.images[j]
 
-function AppView (collection) {
-	var _this = this;
+var AppView = Backbone.View.extend({
+    className: 'carousel',
 
-	this.el = $('<div></div>', {
-		class:'eventButtons'
-	});
+    events: {
+        'click button': 'handleButtonClick'
+    },
 
-	this.collection = collection;
-	this.fullView = new FullView();
+    initialize: function () {
+        this.fullView = new FullView();
+        this.fullView.setModel(this.collection.first());
+    },
 
-	this.fullView.setModel(this.collection.first());
+    render: function () {
+        this.$el.html(this.template());
+        this.$('.fullImage-container').append(this.fullView.$el);
+        this.fullView.render();
+    },
 
-	this.el.on('click', 'button', function (e) {
-		var model = _this.collection.find({
-			id: +e.target.getAttribute('data-id')
-		});
-		_this.fullView.setModel(model);
-	});
-}
+    template: function () {
+        var buttons = this.collection.map(function (model) {
+            return '<button data-id="' + model.get('id') + '">' + model.get('title') + '</button>';
+        }).join('');
 
-AppView.prototype.render = function () {
-	var buttons = this.collection.map(function (model) {
-		return '<button data-id="' + model.get('id') + '">' + model.get('title') + '</button>';
-	}).join('');
+        return `
+            <div class="fullImage-container"></div>
+            <div class="eventButtons">${buttons}</div>
+        `;
+    },
 
-	this.el.html(`
-		<div class="fullImage-container"></div>
-		<div class="eventButtons">${buttons}</div>
-	`);
+    handleButtonClick: function (e) {
+        var model = this.collection.find({
+            id: + e.target.getAttribute('data-id')
+        });
+        this.fullView.setModel(model);
+    }
 
-	this.fullView.render();
+});
 
-	this.el.find('.fullImage-container').append(this.fullView.el);
-}
+var SlideView = Backbone.View.extend({
 
-function SlideView (url) {
-	var _this = this;
-	this.url = url;
-	this.el = $('<div/>', { class: 'slide' });
-}
+    className: 'slide',
 
-SlideView.prototype = Object.create(View.prototype);
+    initialize: function (options) {
+        this.url = options.url;
+    },
 
-SlideView.prototype.render = function () {
-	var _this = this;
+    render: function () {
+        this.$el.css('background-image', 'url(' + this.url + ')');   
+    },
 
-	this.el.css('background-image', 'url(' + this.url + ')');
-};
+    fadeIn: function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.$el.addClass('active');
+        }, 100);
+    },
 
-SlideView.prototype.fadeIn = function () {
-	this.el.fadeIn();
-};
+    fadeOut: function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.$el.removeClass('active');
+        }, 100);
+    }
 
-SlideView.prototype.fadeOut = function () {
-	this.el.fadeOut();
-};
+});
 
 // var slideView = new SlideView("images/poi_2.jpg");
 
@@ -80,80 +101,111 @@ SlideView.prototype.fadeOut = function () {
 
 // // FullView
 
-function FullView() {
-    var _this = this;
+var FullView = Backbone.View.extend({
 
-    this.childViews = [];
-    this.currentIndex = 0;
+    className: 'full',
 
-    this.el = $('<div/>', { class: 'full' });
+    initialize: function () {
+        var _this = this;
 
-    // start some timer (setInterval) that will change classes after some time
-    setInterval(function () {
-    	_this.hideCurrentImage();
-    	if (_this.currentIndex === _this.model.get('images').length - 1) {
-    		_this.currentIndex = 0;
-    	} else {
-    		_this.currentIndex++;
-    	}
-        _this.showCurrentImage();
-    }, 5000);
-    
-}
+        this.childViews = [];
+        this.currentIndex = 0;
+    },
 
-FullView.prototype.setModel = function (model) {
-    // clear out content
-    this.currentIndex = 0;
-    this.model = model;
-    this.render();
-    // 
-    // create all the SingleImageViews
-};
+    startInterval: function () {
+        var _this = this;
 
+        // Clear the id of the timer that was there previously
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
 
-FullView.prototype.render = function () {
-	var _this = this;
+        // Start a new timer and store its id (so we can clear it later)
+        this.interval = setInterval(function () {
+            // Call the this.cycle function every 5s
+            _this.cycle();
+        }, 5000);
+    },
 
-	this.childViews = [];
+    setModel: function (model) {
+        var _this = this;
 
-    // set up the template
-    var images = this.model.get('images');
-    this.el.html(`
-        <div class="fullImage-info">
-            <h3>${this.model.get('title')}</h3>
-            <p>${this.model.get('description')}</p>
-        </div>
-        <div class="fullImage-slides"></div>
-    `);
-    
-    images.forEach(function (url) {
-        var singleImage = new SlideView(url);
-        _this.childViews.push(singleImage);
-        // render and append to .fullImage-slide
-        singleImage.render();
-        _this.el.find('.fullImage-slides').append(singleImage.el);
-    });
+        this.currentIndex = 0;
+        this.model = model;
 
-    // Show the first SlideView
-    _this.childViews[0].fadeIn();
-};
+        this.startInterval();
 
-FullView.prototype.hideCurrentImage = function () {
-	this.childViews[this.currentIndex].fadeOut();
-};
+        // If we are re-rendering (had child views)
+        if (this.childViews.length > 0) {
+            // Hide the current SlideView
+            this.hideCurrentImage();
+            // And wait for it to animate out
+            setTimeout(function () {
+                _this.render();
+            }, 250);
 
-FullView.prototype.showCurrentImage = function (url) {
-	this.childViews[this.currentIndex].fadeIn();
-};
+            return;
+        }
 
-var appView = new AppView(collection);
+        this.render();
+    },
+
+    render: function () {
+        var _this = this;
+
+        this.childViews = [];
+
+        this.$el.html(this.template({
+            title: this.model.get('title'),
+            description: this.model.get('description')
+        }));
+
+        var images = this.model.get('images');
+
+        images.forEach(function (url) {
+            var singleImage = new SlideView({ url: url });
+            _this.childViews.push(singleImage);
+            // render and append to .fullImage-slide
+            singleImage.render();
+            _this.$('.fullImage-slides').append(singleImage.el);
+        });
+
+        this.showCurrentImage();
+    },
+
+    template: function (data) {
+        // set up the template
+        return `
+            <div class="fullImage-info">
+                <h3>${data.title}</h3>
+                <p>${data.description}</p>
+            </div>
+            <div class="fullImage-slides"></div>
+        `;
+    },
+
+    cycle: function () {
+        this.hideCurrentImage();
+        if (this.currentIndex === this.model.get('images').length - 1) {
+            this.currentIndex = 0;
+        } else {
+            this.currentIndex++;
+        }
+        this.showCurrentImage();
+    },
+
+    hideCurrentImage: function () {
+        this.childViews[this.currentIndex].fadeOut();
+    },
+
+    showCurrentImage: function () {
+        this.childViews[this.currentIndex].fadeIn();
+    }
+
+});
+
+var appView = new AppView({ collection: collection });
 
 appView.render();
 
-$(document.body).append(appView.el);
-var appView = new AppView();
-
-	
-appView.render();
-
-$('#carousel-container').append(appView.el);
+$('.carousel-container').append(appView.el);
