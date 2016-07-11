@@ -1,31 +1,17 @@
-.slide {
-	width: 100%;
-	height: 500px;
-	background-position: center;
-	background-size: cover;
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
+@import 'components/header';
+@import 'components/carousel-container';
+@import 'components/about';
+@import 'components/info';
+@import 'components/carousel';
+@import 'components/fullImage-container';
+@import 'components/fullImage';
+@import 'components/fullImage-info';
+@import 'components/fullImage-slides';
+@import 'components/eventButtons';
+@import 'components/slide';
+@import 'components/full';
 
-.fullImage-container {
-	height: 500px;
-}
 
-.full {
-	height: 100%;
-	position: relative;
-}
 
-.fullImage-info {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 2;
-}
 
-.fullImage-slides {
-	position: relative;
-	height: 100%;
-}
+

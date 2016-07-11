@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function View (data) {
     this.data = data;
     this.el = $('<div></div>');
@@ -152,11 +151,9 @@ var appView = new AppView(collection);
 appView.render();
 
 $(document.body).append(appView.el);
-=======
 var appView = new AppView();
 
 	
 appView.render();
 
 $('#carousel-container').append(appView.el);
->>>>>>> 382bce71fc7e09955577d66c89985a24361279c1
