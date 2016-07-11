@@ -4,9 +4,9 @@ function View (data) {
 }
 
 var rawData = [
-    { id: 1, title: 'Dance', description: 'We perform Tribal Style Bellydancing, Krump Dancing, and Breakdancing.', images: ['images/bellydance_1.jpg', 'images/bellydance_2.jpg','images/bellydance_3.jpg'] },
-    { id: 2, title: 'Aerial', description: 'We perform Aerial Lyra (hoop) and Aerial Silks.', images: ['images/aerialists_1.jpg','images/aerialists_2.jpg','images/aerialists_3.jpg'] },
-    { id: 3, title: 'Other', description: 'We have shows with Acrobalance, Fire, Clowns and more.', images: ['images/poi_2.jpg','images/acrobalance_2.jpg','images/clown_1.jpg']}
+    { id: 1, title: 'ELECTRIFYING', description: 'We perform Tribal Style Bellydancing, Krump Dancing, and Breakdancing.', images: ['images/bellydance_1.jpg', 'images/bellydance_2.jpg','images/bellydance_3.jpg'] },
+    { id: 2, title: 'DYNAMIC', description: 'We perform Aerial Lyra (hoop) and Aerial Silks.', images: ['images/aerialists_1.jpg','images/aerialists_2.jpg','images/aerialists_3.jpg'] },
+    { id: 3, title: 'MYSTERIOUS', description: 'We have shows with Acrobalance, Fire, Clowns and more.', images: ['images/poi_2.jpg','images/acrobalance_2.jpg','images/clown_1.jpg']}
 ];
 
 var collection = new Backbone.Collection(rawData);
