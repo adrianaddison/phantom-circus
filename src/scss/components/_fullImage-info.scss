@@ -1,7 +1,100 @@
+// html,body{height:100%;}
+
+
+//   background: linear-gradient(135deg, #01373f 0%,#00252d 100%); 
+//   overflow:hidden;
+
+$texcol: white;
+
 .fullImage-info {
-	color: white;
-	position: absolute;
-	top: 0;
-	left: 0;
+ 
+  // overflow:hidden;
+font-family: 'Raleway', sans-serif;
+  font-size:25px;
+  color: #CDCDB4; 
+  margin:0;
+  text-transform:uppercase;
+  color:transparent;
+  text-shadow:0 2 15px orange;
+  text-align:center;
+  letter-spacing:2px;
+  animation-name: focus;
+  animation-duration: 10s;
+  animation-iteration-count:infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  position: absolute;
+	top: 35%;
+	left: 10%;
+	right: 5%; 
 	z-index: 2;
 }
+
+@keyframes focus {
+  0% {
+    text-shadow:0 0 30px $texcol, 0 20px 30px darken($texcol,30%);
+    letter-spacing:5px;
+  }
+  50% {
+    text-shadow:0 0 0 $texcol;
+    font-size:2em;
+    letter-spacing:2px;
+  }
+  75% {
+    text-shadow:0 0 0 $texcol;
+    font-size:2em;
+    letter-spacing:2px;
+    color: white;  
+  }
+  100% {
+    text-shadow:0 0 100px $texcol;
+    font-size:2.3em;
+    letter-spacing:2px;
+  }
+}  
+// 	font-size: 35px;
+// 	animation: blurFadeInOut 8s ease-in backwards;
+// 	position: absolute;
+// 	top: 50%;
+// 	line-height: 100px;
+// 	height: 90px;
+// 	margin-top: -50px;
+// 	width: 100%;
+// 	text-align: center;
+// 	color: transparent;
+// }
+// @-webkit-keyframes blurFadeInOut{
+// 	0%{
+// 		opacity: 0;
+// 		text-shadow: 0px 0px 40px #fff;
+// 		transform: scale(1.3);
+// 	}
+// 	20%,75%{
+// 		opacity: 1;
+// 		text-shadow: 0px 0px 1px #fff;
+// 		transform: scale(1);
+// 	}
+// 	100%{
+// 		opacity: 0;
+// 		text-shadow: 0px 0px 50px #fff;
+// 		transform: scale(0);
+// 	}
+// }
+
+// @-webkit-keyframes blurFadeIn{
+// 	0%{
+// 		opacity: 0;
+// 		text-shadow: 0px 0px 40px #fff;
+// 		transform: scale(1.3);
+// 	}
+// 	50%{
+// 		opacity: 0.5;
+// 		text-shadow: 0px 0px 10px #fff;
+// 		transform: scale(1.1);
+// 	}
+// 	100%{
+// 		opacity: 1;
+// 		text-shadow: 0px 0px 1px #fff;
+// 		transform: scale(1);
+// 	}
+// }

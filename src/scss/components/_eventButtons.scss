@@ -1,3 +1,71 @@
 .eventButtons {
-	
+	text-align: center; 
+
+
+
+
+
+
+
+
+background: #e8b883; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #e8b883 , #d7aa7d); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #e8b883 , #d7aa7d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */      
 }
+
+
+
+.eventButtons button {
+	
+	  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: .2rem;
+  text-decoration: none;
+  overflow: visible;
+  display: inline-block;
+  padding: 1 4rem 2 3.8rem;
+  color: #333;
+  background: none;
+  border: 0px solid #FFF;
+  // cursor: crosshair;
+  transform: translate3d(0, 0, 0);
+  &:after {
+ 
+    display: block;
+    position: absolute;
+    border-radius: 150px;
+    top: 10px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    background: #454559;
+    pointer-events: auto;
+    transform: translate3d(0, 45px, 0);
+    transition: all 0.3s 0s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  }
+     font-style: normal;
+    line-height: 4.5rem;
+    display: inline-block;
+    height: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 50px; 
+    transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
+    &:hover {
+      transform: translate3d(0, -6px, 0);
+    }
+  
+  &:hover {
+    color: #1f0905; }
+    &:after {
+      transform: translate3d(0, 0, 0);
+       background: #ad9066;
+       border: 5px solid blue;
+    }
+  
+}
+
+
+  
